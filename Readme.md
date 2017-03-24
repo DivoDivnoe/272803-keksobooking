@@ -1,7 +1,7 @@
 ﻿# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Иванов](https://up.htmlacademy.ru/javascript/9/user/272803).
-* Наставник: `Кира Шатулова`.
+* Наставник: ''Кира Шатулова`(https://htmlacademy.ru/profile/kirashatulova).
 
 ---
 
