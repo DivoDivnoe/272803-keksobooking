@@ -1,3 +1,5 @@
+'use strict';
+
 var generateObject = function (title) {
   var types = ['flat', 'house', 'bungalo'];
   var checks = ['12:00', '13:00', '14:00'];
@@ -14,7 +16,7 @@ var generateObject = function (title) {
   };
   obj.offer = {
     'title': title,
-    'address':  obj.location.x + ', ' + obj.location.y,
+    'address': obj.location.x + ', ' + obj.location.y,
     'price': generateNumber(1000, 1000000),
     'type': getRandomValue(types),
     'rooms': generateNumber(1, 5),
