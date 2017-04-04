@@ -1,33 +1,51 @@
 'use strict';
 
-var generateObject = function (title) {
-  var types = ['flat', 'house', 'bungalo'];
-  var checks = ['12:00', '13:00', '14:00'];
-  var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var AVATARS = [1, 2, 3, 4, 5, 6, 7, 8];
+var TITLES = [
+  'Большая уютная квартира', 'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец', 'Маленький ужасный дворец',
+  'Красивый гостевой домик', 'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'
+];
+var TYPES = ['flat', 'house', 'bungalo'];
+var CHECKS = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-  var obj = {};
+var generateArray = function (avatars, titles, types, checks, features, quantity) {
+  var res = [];
 
-  obj.author = {
-    'avatar': 'img/avatars/user0' + generateNumber(1, 8) + '.png'
-  };
-  obj.location = {
-    'x': generateNumber(300, 900),
-    'y': generateNumber(100, 500)
-  };
-  obj.offer = {
-    'title': title,
-    'address': obj.location.x + ', ' + obj.location.y,
-    'price': generateNumber(1000, 1000000),
-    'type': getRandomValue(types),
-    'rooms': generateNumber(1, 5),
-    'guests': generateNumber(1, 10),
-    'checkin': getRandomValue(checks),
-    'checkout': getRandomValue(checks),
-    'features': generateRandomLengthArray(features),
-    'description': '',
-    'photos': []
-  };
-  return obj;
+  for (var i = 0; i < quantity; i++) {
+    var title = spliceRandomElement(titles);
+    var avatar = spliceRandomElement(avatars);
+    var object = {};
+
+    object.author = {
+      'avatar': 'img/avatars/user0' + avatar + '.png'
+    };
+    object.location = {
+      'x': generateNumber(300, 900),
+      'y': generateNumber(100, 500)
+    };
+    object.offer = {
+      'title': title,
+      'address': object.location.x + ', ' + object.location.y,
+      'price': generateNumber(1000, 1000000),
+      'type': getRandomValue(types),
+      'rooms': generateNumber(1, 5),
+      'guests': generateNumber(1, 10),
+      'checkin': getRandomValue(checks),
+      'checkout': getRandomValue(checks),
+      'features': generateRandomLengthArray(features),
+      'description': '',
+      'photos': []
+    };
+    res.push(object);
+  }
+  return res;
+};
+
+var spliceRandomElement = function (el) {
+  return el.splice(Math.floor(Math.random() * el.length), 1)[0];
 };
 
 var generateNumber = function (first, last) {
@@ -44,24 +62,6 @@ var generateRandomLengthArray = function (arr) {
 
   for (var i = 0; i < length; i++) {
     res.push(arr.splice(Math.floor(Math.random() * arr.length), 1)[0]);
-  }
-  return res;
-};
-
-var generateArray = function () {
-  var res = [];
-
-  var titles = [
-    'Большая уютная квартира', 'Маленькая неуютная квартира',
-    'Огромный прекрасный дворец', 'Маленький ужасный дворец',
-    'Красивый гостевой домик', 'Некрасивый негостеприимный домик',
-    'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'
-  ];
-
-  for (var i = 0; i < 8; i++) {
-    var title = titles.splice(Math.floor(Math.random() * titles.length), 1)[0];
-    var object = generateObject(title);
-    res.push(object);
   }
   return res;
 };
@@ -88,7 +88,7 @@ var createDocumentBlock = function (arr) {
   return fragment;
 };
 
-var houses = generateArray();
+var houses = generateArray(AVATARS, TITLES, TYPES, CHECKS, FEATURES, 8);
 
 document.querySelector('.tokyo__pin-map').appendChild(createDocumentBlock(houses));
 
@@ -124,4 +124,4 @@ var showAllFeatures = function (features) {
 };
 
 createTemplate(houses[0]);
-document.querySelector('.dialog__title').src = houses[0].author.avatar;
+document.querySelector('.dialog__title img').src = houses[0].author.avatar;
