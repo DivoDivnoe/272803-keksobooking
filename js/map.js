@@ -23,10 +23,10 @@ var TYPES = ['flat', 'house', 'bungalo'];
 var CHECKS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-var generateArray = function (AVATARS, TITLES, TYPES, CHECKS, FEATURES, quantity) {
+var generateArray = function (avatars, titles, types, checks, features, quantity) {
   var res = [];
-  var avatars = AVATARS.slice();
-  var titles = TITLES.slice();
+  avatars = avatars.slice();
+  titles = titles.slice();
 
   for (var i = 0; i < quantity; i++) {
     var title = spliceRandomElement(titles);
@@ -44,12 +44,12 @@ var generateArray = function (AVATARS, TITLES, TYPES, CHECKS, FEATURES, quantity
       'title': title,
       'address': object.location.x + ', ' + object.location.y,
       'price': generateNumber(1000, 1000000),
-      'type': getRandomValue(TYPES),
+      'type': getRandomValue(types),
       'rooms': generateNumber(1, 5),
       'guests': generateNumber(1, 10),
-      'checkin': getRandomValue(CHECKS),
-      'checkout': getRandomValue(CHECKS),
-      'features': generateRandomLengthArray(FEATURES),
+      'checkin': getRandomValue(checks),
+      'checkout': getRandomValue(checks),
+      'features': generateRandomLengthArray(features),
       'description': '',
       'photos': []
     };
@@ -106,8 +106,7 @@ var createDocumentBlock = function (arr) {
 };
 
 var houses = generateArray(AVATARS, TITLES, TYPES, CHECKS, FEATURES, 8);
-//debugger;
-//var pinElements = document.querySelectorAll('.pin');
+
 var dialogClose = dialog.querySelector('.dialog__close');
 var avatar = dialog.querySelector('.dialog__title img');
 var pinMap = document.querySelector('.tokyo__pin-map');
@@ -118,7 +117,7 @@ var pinElements = function () {
   var res = [];
 
   document.querySelectorAll('.pin').forEach(function (value) {
-      res.push(value);
+    res.push(value);
   });
 
   res.shift();
