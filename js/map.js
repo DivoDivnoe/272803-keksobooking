@@ -1,5 +1,17 @@
 'use strict';
 
+var dialog = document.querySelector('.dialog');
+
+var showElement = function (el) {
+  el.style.display = 'block';
+};
+
+var hideElement = function (el) {
+  el.style.display = 'none';
+};
+
+hideElement(dialog);
+
 var AVATARS = [1, 2, 3, 4, 5, 6, 7, 8];
 var TITLES = [
   'Большая уютная квартира', 'Маленькая неуютная квартира',
@@ -11,8 +23,10 @@ var TYPES = ['flat', 'house', 'bungalo'];
 var CHECKS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-var generateArray = function (avatars, titles, types, checks, features, quantity) {
+var generateArray = function (AVATARS, TITLES, TYPES, CHECKS, FEATURES, quantity) {
   var res = [];
+  var avatars = AVATARS.slice();
+  var titles = TITLES.slice();
 
   for (var i = 0; i < quantity; i++) {
     var title = spliceRandomElement(titles);
@@ -30,12 +44,12 @@ var generateArray = function (avatars, titles, types, checks, features, quantity
       'title': title,
       'address': object.location.x + ', ' + object.location.y,
       'price': generateNumber(1000, 1000000),
-      'type': getRandomValue(types),
+      'type': getRandomValue(TYPES),
       'rooms': generateNumber(1, 5),
       'guests': generateNumber(1, 10),
-      'checkin': getRandomValue(checks),
-      'checkout': getRandomValue(checks),
-      'features': generateRandomLengthArray(features),
+      'checkin': getRandomValue(CHECKS),
+      'checkout': getRandomValue(CHECKS),
+      'features': generateRandomLengthArray(FEATURES),
       'description': '',
       'photos': []
     };
@@ -57,11 +71,13 @@ var getRandomValue = function (arr) {
 };
 
 var generateRandomLengthArray = function (arr) {
+  arr = arr.slice();
+
   var res = [];
   var length = Math.floor(Math.random() * arr.length);
 
-  for (var i = 0; i < length; i++) {
-    res.push(arr.splice(Math.floor(Math.random() * arr.length), 1)[0]);
+  for (var i = 0; i <= length; i++) {
+    res.push(spliceRandomElement(arr));
   }
   return res;
 };
@@ -74,6 +90,7 @@ var createDocumentBlock = function (arr) {
 
     div.className = 'pin';
     div.style = 'left: ' + (arr[i].location.x - div.style.width / 2) + 'px; top: ' + (arr[i].location.y - div.style.height) + 'px';
+    div.tabIndex = '0';
 
     var img = document.createElement('img');
 
@@ -89,12 +106,83 @@ var createDocumentBlock = function (arr) {
 };
 
 var houses = generateArray(AVATARS, TITLES, TYPES, CHECKS, FEATURES, 8);
+//debugger;
+//var pinElements = document.querySelectorAll('.pin');
+var dialogClose = dialog.querySelector('.dialog__close');
+var avatar = dialog.querySelector('.dialog__title img');
+var pinMap = document.querySelector('.tokyo__pin-map');
 
-document.querySelector('.tokyo__pin-map').appendChild(createDocumentBlock(houses));
+pinMap.appendChild(createDocumentBlock(houses));
+
+var pinElements = function () {
+  var res = [];
+
+  document.querySelectorAll('.pin').forEach(function (value) {
+      res.push(value);
+  });
+
+  res.shift();
+
+  return res;
+}();
+
+var isActivationKey = function (evt) {
+  return evt.keyCode === 13;
+};
+
+var isEscapeKey = function (evt) {
+  return evt.keyCode === 27;
+};
+
+var closePopup = function (el) {
+  hideElement(dialog);
+  el.classList.remove('pin--active');
+};
+
+var openPopup = function (el, index) {
+  avatar.src = houses[index].author.avatar;
+  createTemplate(houses[index]);
+
+  var activePinElement = pinMap.querySelector('.pin--active');
+
+  if (activePinElement && activePinElement !== el) {
+    activePinElement.classList.remove('pin--active');
+  }
+
+  el.classList.add('pin--active');
+  showElement(dialog);
+
+  dialogClose.addEventListener('click', function () {
+    closePopup(el);
+  });
+
+  dialogClose.addEventListener('keydown', function (evt) {
+    if (isActivationKey(evt)) {
+      closePopup(el);
+    }
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (isEscapeKey(evt)) {
+      closePopup(el);
+    }
+  });
+};
+
+pinElements.forEach(function (el, index) {
+  el.addEventListener('click', function () {
+    openPopup(el, index);
+  });
+  el.addEventListener('keydown', function (evt) {
+    if (isActivationKey(evt)) {
+      openPopup(el, index);
+    }
+  });
+});
 
 var createTemplate = function (house) {
   var template = document.querySelector('#lodge-template');
-  var dialogPanel = document.querySelector('.dialog__panel');
+  var dialogPanel = dialog.querySelector('.dialog__panel');
   var element = template.content.cloneNode(true);
 
   element.querySelector('.lodge__title').textContent = house.offer.title;
@@ -122,6 +210,3 @@ var showAllFeatures = function (features) {
 
   return fragment;
 };
-
-createTemplate(houses[0]);
-document.querySelector('.dialog__title img').src = houses[0].author.avatar;
