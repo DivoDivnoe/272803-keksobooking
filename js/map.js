@@ -13,7 +13,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 
 var dialog = document.querySelector('.dialog');
 var dialogClose = dialog.querySelector('.dialog__close');
-var avatar = dialog.querySelector('.dialog__title img');
+var avatarImage = dialog.querySelector('.dialog__title img');
 var pinMap = document.querySelector('.tokyo__pin-map');
 
 var spliceRandomElement = function (el) {
@@ -167,7 +167,7 @@ var closePopup = function (el) {
 };
 
 var openPopup = function (el, index) {
-  avatar.src = houses[index].author.avatar;
+  avatarImage.src = houses[index].author.avatar;
   createTemplate(houses[index]);
 
   var activePinElement = pinMap.querySelector('.pin--active');
@@ -208,5 +208,3 @@ pinElements.forEach(function (el, index) {
 });
 
 hideElement(dialog);
-
-
