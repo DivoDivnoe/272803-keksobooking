@@ -16,6 +16,14 @@ var dialogClose = dialog.querySelector('.dialog__close');
 var avatarImage = dialog.querySelector('.dialog__title img');
 var pinMap = document.querySelector('.tokyo__pin-map');
 
+var noticeForm = document.querySelector('.notice__form');
+var timein = noticeForm.querySelector('#time');
+var timeout = noticeForm.querySelector('#timeout');
+var type = noticeForm.querySelector('#type');
+var price = noticeForm.querySelector('#price');
+var rooms = noticeForm.querySelector('#room_number');
+var capacity = noticeForm.querySelector('#capacity');
+
 var spliceRandomElement = function (el) {
   return el.splice(Math.floor(Math.random() * el.length), 1)[0];
 };
@@ -206,5 +214,39 @@ pinElements.forEach(function (el, index) {
     }
   });
 });
+
+timein.addEventListener('change', function () {
+  timeout.value = timein.value.replace('after', 'before');
+});
+
+var setPrice = function (value, placeholder) {
+  price.min = value;
+  price.setAttribute('placeholder', placeholder);
+};
+
+type.addEventListener('change', function () {
+  if (type.value === 'Квартира') {
+    setPrice(1000, '5000');
+  } else if (type.value === 'Лачуга') {
+    setPrice(0, '5000');
+  } else {
+    setPrice(10000, '10000');
+  }
+});
+
+rooms.addEventListener('change', function () {
+  if (rooms.value === '1 комната') {
+    capacity.value = 'не для гостей';
+  } else {
+    capacity.value = 'для 3 гостей';
+  }
+});
+
+noticeForm.addEventListener('invalid', function (evt) {
+  var target = evt.target;
+
+  target.style.border = '1px solid red';
+  target.style.boxShadow = 'none';
+}, true);
 
 hideElement(dialog);
