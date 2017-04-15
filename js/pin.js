@@ -30,7 +30,7 @@ window.createPins = function () {
 
   return {
     pinMap: pinMap,
-    
+
     pinElements: function () {
       var res = [];
 

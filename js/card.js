@@ -17,7 +17,7 @@ window.createCard = function () {
 
     return fragment;
   };
-  
+
   return {
     dialog: dialog,
 
