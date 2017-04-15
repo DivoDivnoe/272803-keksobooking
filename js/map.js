@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var dialogClose = createCard.dialog.querySelector('.dialog__close');
-  var avatarImage = createCard.dialog.querySelector('.dialog__title img');
+  var dialogClose = window.createCard.dialog.querySelector('.dialog__close');
+  var avatarImage = window.createCard.dialog.querySelector('.dialog__title img');
 
   var showElement = function (el) {
     el.style.display = 'block';
@@ -21,22 +21,22 @@
   };
 
   var closePopup = function (el) {
-    hideElement(createCard.dialog);
+    hideElement(window.createCard.dialog);
     el.classList.remove('pin--active');
   };
 
   var openPopup = function (el, index) {
-    avatarImage.src = createData.houses[index].author.avatar;
-    createCard.createTemplate(createData.houses[index]);
+    avatarImage.src = window.createData.houses[index].author.avatar;
+    window.createCard.createTemplate(window.createData.houses[index]);
 
-    var activePinElement = createPins.pinMap.querySelector('.pin--active');
+    var activePinElement = window.createPins.pinMap.querySelector('.pin--active');
 
     if (activePinElement && activePinElement !== el) {
       activePinElement.classList.remove('pin--active');
     }
 
     el.classList.add('pin--active');
-    showElement(createCard.dialog);
+    showElement(window.createCard.dialog);
 
     dialogClose.addEventListener('click', function () {
       closePopup(el);
@@ -55,7 +55,7 @@
     });
   };
 
-  createPins.pinElements.forEach(function (el, index) {
+  window.createPins.pinElements.forEach(function (el, index) {
     el.addEventListener('click', function () {
       openPopup(el, index);
     });
@@ -66,5 +66,5 @@
     });
   });
 
-  hideElement(createCard.dialog);
+  hideElement(window.createCard.dialog);
 })();

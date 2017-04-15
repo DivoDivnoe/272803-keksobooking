@@ -26,7 +26,7 @@ window.createPins = function () {
     return fragment;
   };
 
-  pinMap.appendChild(createDocumentBlock(createData.houses));
+  pinMap.appendChild(createDocumentBlock(window.createData.houses));
 
   return {
     pinMap: pinMap,
