@@ -90,7 +90,7 @@
       pinMain.style.left = pinMain.offsetLeft + shift.x + 'px';
       pinMain.style.top = pinMain.offsetTop + shift.y + 'px';
 
-      address.value = 'x: ' +  (pinMain.offsetLeft + pinMain.offsetWidth / 2).toFixed(0) + ', y: ' + (pinMain.offsetTop + pinMain.offsetHeight).toFixed(0);
+      address.value = 'x: ' + (pinMain.offsetLeft + pinMain.offsetWidth / 2).toFixed(0) + ', y: ' + (pinMain.offsetTop + pinMain.offsetHeight).toFixed(0);
     };
 
     var mouseUpHandler = function (upEvt) {
@@ -103,13 +103,13 @@
     document.addEventListener('mouseup', mouseUpHandler);
   });
 
-  address.value = address.value = 'x: ' +  (pinMain.offsetLeft + pinMain.offsetWidth / 2).toFixed(0) + ', y: ' + (pinMain.offsetTop + pinMain.offsetHeight).toFixed(0);
+  address.value = address.value = 'x: ' + (pinMain.offsetLeft + pinMain.offsetWidth / 2).toFixed(0) + ', y: ' + (pinMain.offsetTop + pinMain.offsetHeight).toFixed(0);
 
   address.addEventListener('blur', function () {
     var arr = address.value.split(', ');
 
-    pinMain.style.left = parseInt(arr[0].substr(3)) - pinMain.offsetWidth / 2 + 'px';
-    pinMain.style.top = parseInt(arr[1].substr(3)) - pinMain.offsetHeight + 'px';
+    pinMain.style.left = parseInt(arr[0].substr(3), 10) - pinMain.offsetWidth / 2 + 'px';
+    pinMain.style.top = parseInt(arr[1].substr(3), 10) - pinMain.offsetHeight + 'px';
   });
 
   hideElement(window.createCard.dialog);
