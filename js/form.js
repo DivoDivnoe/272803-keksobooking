@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+window.bookingForm = (function () {
   var noticeForm = document.querySelector('.notice__form');
   var timein = noticeForm.querySelector('#time');
   var timeout = noticeForm.querySelector('#timeout');
@@ -42,4 +42,8 @@
     target.style.border = '1px solid red';
     target.style.boxShadow = 'none';
   }, true);
+
+  return {
+    noticeForm: noticeForm
+  };
 })();
