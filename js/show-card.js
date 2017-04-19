@@ -8,7 +8,7 @@ window.showCard = function () {
     window.showCard.hideElement(window.createCard.dialog);
     el.classList.remove('pin--active');
   };
-  
+
   return {
     showElement: function (el) {
       el.style.display = 'block';
@@ -55,5 +55,5 @@ window.showCard = function () {
         }
       });
     }
-  }
+  };
 }();
