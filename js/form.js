@@ -9,31 +9,25 @@ window.bookingForm = (function () {
   var rooms = noticeForm.querySelector('#room_number');
   var capacity = noticeForm.querySelector('#capacity');
 
-  timein.addEventListener('change', function () {
-    timeout.value = timein.value.replace('after', 'before');
-  });
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
 
-  var setPrice = function (value) {
-    price.min = value;
-    price.setAttribute('placeholder', value);
+  var syncValuesWithMin = function (element, value) {
+    element.min = value;
+    element.setAttribute('placeholder', value);
   };
 
   type.addEventListener('change', function () {
-    if (type.value === 'Квартира') {
-      setPrice(1000);
-    } else if (type.value === 'Лачуга') {
-      setPrice(0);
-    } else {
-      setPrice(10000);
-    }
+    window.synchronizeFields(type, price, ['Квартира', 'Лачуга', 'Дворец'], [1000, 0, 10000], syncValuesWithMin);
+  });
+
+  timein.addEventListener('change', function () {
+    window.synchronizeFields(timein, timeout, ['12', '13', '14'], ['12', '13', '14'], syncValues);
   });
 
   rooms.addEventListener('change', function () {
-    if (rooms.value === '1 комната') {
-      capacity.value = 'не для гостей';
-    } else {
-      capacity.value = 'для 3 гостей';
-    }
+    window.synchronizeFields(rooms, capacity, ['1 комната', '2 комнаты', '100 комнат'], ['не для гостей', 'для 3 гостей', 'для 3 гостей'], syncValues);
   });
 
   noticeForm.addEventListener('invalid', function (evt) {
