@@ -26,21 +26,28 @@ window.createPins = function () {
     return fragment;
   };
 
-  pinMap.appendChild(createDocumentBlock(window.createData.houses));
+  var successHandler = function (houses) {
+    pinMap.appendChild(createDocumentBlock(houses));
+
+    return houses;
+  };
+
+  var errorHandler = function (message) {
+    var div = document.createElement('div');
+
+    div.style = 'position: absolute; left: 0; right: 0;';
+    div.style = 'font-size: 30px; text-align: center; background-color: red';
+    div.textContent = message;
+
+    document.body.insertAdjacentElement('afterbegin', div);
+
+    return [];
+  };
+
+  var pinElements = window.loadData(successHandler, errorHandler);
 
   return {
     pinMap: pinMap,
-
-    pinElements: function () {
-      var res = [];
-
-      pinMap.querySelectorAll('.pin').forEach(function (value) {
-        res.push(value);
-      });
-
-      res.shift();
-
-      return res;
-    }()
+    pinElements: pinElements
   };
 }();
