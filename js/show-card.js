@@ -8,7 +8,6 @@ window.showCard = function () {
     var pinElements = [].filter.call(window.createPins.pinMap.querySelectorAll('.pin'), function (value, index) {
       return index > 0;
     });
-    console.log(pinElements);
 
     var closePopup = function (el) {
       window.showCard.hideElement(window.createCard.dialog);
