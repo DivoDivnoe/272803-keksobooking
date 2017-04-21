@@ -1,8 +1,6 @@
 'use strict';
 
 window.createPins = function () {
-  var pinMap = document.querySelector('.tokyo__pin-map');
-
   var createDocumentBlock = function (arr) {
     var fragment = document.createDocumentFragment();
 
@@ -26,21 +24,21 @@ window.createPins = function () {
     return fragment;
   };
 
-  pinMap.appendChild(createDocumentBlock(window.createData.houses));
-
-  return {
-    pinMap: pinMap,
-
-    pinElements: function () {
-      var res = [];
-
-      pinMap.querySelectorAll('.pin').forEach(function (value) {
-        res.push(value);
-      });
-
-      res.shift();
-
-      return res;
-    }()
+  var successHandler = function (houses) {
+    window.showCard.pinMap.appendChild(createDocumentBlock(houses));
+    window.showCard.successHandler(houses);
   };
+
+  var errorHandler = function (message) {
+    var div = document.createElement('div');
+
+    div.style = 'position: absolute; left: 0; right: 0;';
+    div.style = 'font-size: 30px; text-align: center; background-color: red';
+    div.textContent = message;
+
+    document.body.insertAdjacentElement('afterbegin', div);
+  };
+
+  window.loadData(successHandler, errorHandler);
+
 }();
