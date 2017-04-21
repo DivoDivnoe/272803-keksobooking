@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var pinMain = window.createPins.pinMap.querySelector('.pin__main');
+  var pinMain = window.showCard.pinMap.querySelector('.pin__main');
   var address = window.bookingForm.noticeForm.querySelector('#address');
 
   pinMain.addEventListener('mousedown', function (evt) {

@@ -1,8 +1,6 @@
 'use strict';
 
 window.createPins = function () {
-  var pinMap = document.querySelector('.tokyo__pin-map');
-
   var createDocumentBlock = function (arr) {
     var fragment = document.createDocumentFragment();
 
@@ -27,7 +25,8 @@ window.createPins = function () {
   };
 
   var successHandler = function (houses) {
-    pinMap.appendChild(createDocumentBlock(houses));
+    window.showCard.pinMap.appendChild(createDocumentBlock(houses));
+    window.showCard.successHandler(houses);
   };
 
   var errorHandler = function (message) {
@@ -42,7 +41,4 @@ window.createPins = function () {
 
   window.loadData(successHandler, errorHandler);
 
-  return {
-    pinMap: pinMap
-  };
 }();
