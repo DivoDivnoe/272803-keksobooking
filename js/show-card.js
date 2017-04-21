@@ -5,16 +5,10 @@ window.showCard = function () {
   var dialogClose = window.createCard.dialog.querySelector('.dialog__close');
 
   var successHandler = function (houses) {
-    var pinElements = function () {
-      var res = [];
-
-      window.createPins.pinMap.querySelectorAll('.pin').forEach(function (value) {
-        res.push(value);
-      });
-      res.shift();
-
-      return res;
-    }();
+    var pinElements = [].filter.call(window.createPins.pinMap.querySelectorAll('.pin'), function (value, index) {
+      return index > 0;
+    });
+    console.log(pinElements);
 
     var closePopup = function (el) {
       window.showCard.hideElement(window.createCard.dialog);
