@@ -4,17 +4,6 @@
   var pinMain = window.createPins.pinMap.querySelector('.pin__main');
   var address = window.bookingForm.noticeForm.querySelector('#address');
 
-  window.createPins.pinElements.forEach(function (el, index) {
-    el.addEventListener('click', function () {
-      window.showCard.openPopup(el, index);
-    });
-    el.addEventListener('keydown', function (evt) {
-      if (window.showCard.isActivationKey(evt)) {
-        window.showCard.openPopup(el, index);
-      }
-    });
-  });
-
   pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 

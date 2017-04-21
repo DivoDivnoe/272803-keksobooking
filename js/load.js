@@ -26,5 +26,5 @@ window.loadData = function () {
 
     xhr.open('GET', URL);
     xhr.send();
-  }
+  };
 }();

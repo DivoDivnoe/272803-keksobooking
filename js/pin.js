@@ -28,8 +28,6 @@ window.createPins = function () {
 
   var successHandler = function (houses) {
     pinMap.appendChild(createDocumentBlock(houses));
-
-    return houses;
   };
 
   var errorHandler = function (message) {
@@ -40,14 +38,11 @@ window.createPins = function () {
     div.textContent = message;
 
     document.body.insertAdjacentElement('afterbegin', div);
-
-    return [];
   };
 
-  var pinElements = window.loadData(successHandler, errorHandler);
+  window.loadData(successHandler, errorHandler);
 
   return {
-    pinMap: pinMap,
-    pinElements: pinElements
+    pinMap: pinMap
   };
 }();

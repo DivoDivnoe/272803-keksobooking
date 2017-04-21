@@ -4,31 +4,26 @@ window.showCard = function () {
   var avatarImage = window.createCard.dialog.querySelector('.dialog__title img');
   var dialogClose = window.createCard.dialog.querySelector('.dialog__close');
 
-  var closePopup = function (el) {
-    window.showCard.hideElement(window.createCard.dialog);
-    el.classList.remove('pin--active');
-  };
+  var successHandler = function (houses) {
+    var pinElements = function () {
+      var res = [];
 
-  return {
-    showElement: function (el) {
-      el.style.display = 'block';
-    },
+      window.createPins.pinMap.querySelectorAll('.pin').forEach(function (value) {
+        res.push(value);
+      });
+      res.shift();
 
-    hideElement: function (el) {
-      el.style.display = 'none';
-    },
+      return res;
+    }();
 
-    isEscapeKey: function (evt) {
-      return evt.keyCode === 27;
-    },
+    var closePopup = function (el) {
+      window.showCard.hideElement(window.createCard.dialog);
+      el.classList.remove('pin--active');
+    };
 
-    isActivationKey: function (evt) {
-      return evt.keyCode === 13;
-    },
-
-    openPopup: function (el, index) {
-      avatarImage.src = window.createData.houses[index].author.avatar;
-      window.createCard.createTemplate(window.createData.houses[index]);
+    var openPopup = function (el, index) {
+      avatarImage.src = houses[index].author.avatar;
+      window.createCard.createTemplate(houses[index]);
 
       var activePinElement = window.createPins.pinMap.querySelector('.pin--active');
 
@@ -54,6 +49,37 @@ window.showCard = function () {
           closePopup(el);
         }
       });
+    };
+
+    pinElements.forEach(function (el, index) {
+      el.addEventListener('click', function () {
+        openPopup(el, index);
+      });
+      el.addEventListener('keydown', function (evt) {
+        if (window.showCard.isActivationKey(evt)) {
+          openPopup(el, index);
+        }
+      });
+    });
+  };
+
+  window.loadData(successHandler);
+
+  return {
+    showElement: function (el) {
+      el.style.display = 'block';
+    },
+
+    hideElement: function (el) {
+      el.style.display = 'none';
+    },
+
+    isEscapeKey: function (evt) {
+      return evt.keyCode === 27;
+    },
+
+    isActivationKey: function (evt) {
+      return evt.keyCode === 13;
     }
   };
 }();
