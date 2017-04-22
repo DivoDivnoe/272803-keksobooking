@@ -22,7 +22,6 @@
   window.filters.houseTypeChangeHandler = function (type) {
     updateTypeList(type);
     drawPins(filtered);
-    console.log(filtered);
   };
 
   var successHandler = function (items) {
