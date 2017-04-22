@@ -1,32 +1,33 @@
 'use strict';
 
-window.createPins = function () {
-  var createDocumentBlock = function (arr) {
-    var fragment = document.createDocumentFragment();
+(function () {
+  var houses = [];
+  var filtered;
 
-    for (var i = 0; i < arr.length; i++) {
-      var div = document.createElement('div');
-
-      div.className = 'pin';
-      div.style = 'left: ' + (arr[i].location.x - div.style.width / 2) + 'px; top: ' + (arr[i].location.y - div.style.height) + 'px';
-      div.tabIndex = '0';
-
-      var img = document.createElement('img');
-
-      img.src = arr[i].author.avatar;
-      img.className = 'rounded';
-      img.width = '40';
-      img.height = '40';
-
-      div.appendChild(img);
-      fragment.appendChild(div);
+  var updateTypeList = function (type) {
+    if (type === 'any') {
+      filtered = houses;
+    } else {
+      filtered = houses.filter(function (value) {
+        return value === type;
+      });
     }
-    return fragment;
   };
 
-  var successHandler = function (houses) {
-    window.showCard.pinMap.appendChild(createDocumentBlock(houses));
-    window.showCard.successHandler(houses);
+  var drawPins = function (items) {
+    window.showCard.pinMap.appendChild(window.showCard.createDocumentBlock(items));
+    window.showCard.popupHandler(items);
+  };
+
+  window.filters.houseTypeChangeHandler = function (type) {
+    updateTypeList(type);
+    drawPins(filtered);
+    console.log(filtered);
+  };
+
+  var successHandler = function (items) {
+    houses = items;
+    drawPins(items);
   };
 
   var errorHandler = function (message) {
@@ -41,4 +42,4 @@ window.createPins = function () {
 
   window.loadData(successHandler, errorHandler);
 
-}();
+})();
