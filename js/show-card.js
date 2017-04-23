@@ -7,6 +7,29 @@ window.showCard = function () {
   return {
     pinMap: document.querySelector('.tokyo__pin-map'),
 
+    createDocumentBlock: function (arr) {
+      var fragment = document.createDocumentFragment();
+
+      for (var i = 0; i < arr.length; i++) {
+        var div = document.createElement('div');
+
+        div.className = 'pin';
+        div.style = 'left: ' + (arr[i].location.x - div.style.width / 2) + 'px; top: ' + (arr[i].location.y - div.style.height) + 'px';
+        div.tabIndex = '0';
+
+        var img = document.createElement('img');
+
+        img.src = arr[i].author.avatar;
+        img.className = 'rounded';
+        img.width = '40';
+        img.height = '40';
+
+        div.appendChild(img);
+        fragment.appendChild(div);
+      }
+      return fragment;
+    },
+
     showElement: function (el) {
       el.style.display = 'block';
     },
@@ -23,7 +46,7 @@ window.showCard = function () {
       return evt.keyCode === 13;
     },
 
-    successHandler: function (houses) {
+    popupHandler: function (houses) {
       var pinElements = [].filter.call(window.showCard.pinMap.querySelectorAll('.pin'), function (value, index) {
         return index > 0;
       });
