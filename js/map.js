@@ -48,5 +48,5 @@
     pinMain.style.top = parseInt(arr[1].substr(3), 10) - pinMain.offsetHeight + 'px';
   });
 
-  window.showCard.hideElement(window.createCard.dialog);
+  window.common.hideElement(window.createCard.dialog);
 })();
