@@ -12,18 +12,6 @@ window.createData = function () {
   var CHECKS = ['12:00', '13:00', '14:00'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-  var spliceRandomElement = function (el) {
-    return el.splice(Math.floor(Math.random() * el.length), 1)[0];
-  };
-
-  var generateNumber = function (first, last) {
-    return Math.round(Math.random() * (last - first) + first);
-  };
-
-  var getRandomValue = function (arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  };
-
   var generateRandomLengthArray = function (arr) {
     arr = arr.slice();
 
@@ -31,44 +19,44 @@ window.createData = function () {
     var length = Math.floor(Math.random() * arr.length);
 
     for (var i = 0; i <= length; i++) {
-      res.push(spliceRandomElement(arr));
+      res.push(window.common.spliceRandomElement(arr));
     }
     return res;
   };
 
   var generateArray = function (avatars, titles, types, checks, features, quantity) {
-    var res = [];
+    var houses = [];
     avatars = avatars.slice();
     titles = titles.slice();
 
     for (var i = 0; i < quantity; i++) {
-      var title = spliceRandomElement(titles);
-      var avatar = spliceRandomElement(avatars);
+      var title = window.common.spliceRandomElement(titles);
+      var avatar = window.common.spliceRandomElement(avatars);
       var object = {};
 
       object.author = {
         'avatar': 'img/avatars/user0' + avatar + '.png'
       };
       object.location = {
-        'x': generateNumber(300, 900),
-        'y': generateNumber(100, 500)
+        'x': window.common.generateNumber(300, 900),
+        'y': window.common.generateNumber(100, 500)
       };
       object.offer = {
         'title': title,
         'address': object.location.x + ', ' + object.location.y,
-        'price': generateNumber(1000, 1000000),
-        'type': getRandomValue(types),
-        'rooms': generateNumber(1, 5),
-        'guests': generateNumber(1, 10),
-        'checkin': getRandomValue(checks),
-        'checkout': getRandomValue(checks),
+        'price': window.common.generateNumber(1000, 1000000),
+        'type': window.common.getRandomValue(types),
+        'rooms': window.common.generateNumber(1, 5),
+        'guests': window.common.generateNumber(1, 10),
+        'checkin': window.common.getRandomValue(checks),
+        'checkout': window.common.getRandomValue(checks),
         'features': generateRandomLengthArray(features),
         'description': '',
         'photos': []
       };
-      res.push(object);
+      houses.push(object);
     }
-    return res;
+    return houses;
   };
   return {
     houses: generateArray(AVATARS, TITLES, TYPES, CHECKS, FEATURES, 8)
