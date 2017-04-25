@@ -18,6 +18,30 @@ window.popup = function () {
     return fragment;
   };
 
+  var showAllPhotos = function (photos) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < photos.length; i++) {
+      var wrapper = document.createElement('div');
+      wrapper.style.display = 'inline-block';
+      wrapper.style.width = '50px';
+      wrapper.style.height = '50px';
+      wrapper.style.marginRight = (i === 3 ? '0' : '5px');
+
+      var photo = document.createElement('img');
+      photo.src = photos[i];
+      photo.style.maxWidth = '100%';
+      photo.style.maxHeight = '100%';
+      photo.style.minWidth = '100%';
+      photo.style.minHeight = '100%';
+      wrapper.appendChild(photo);
+
+      fragment.appendChild(wrapper);
+    }
+
+    return fragment;
+  };
+
   return {
     dialog: dialog,
 
@@ -33,6 +57,7 @@ window.popup = function () {
       card.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
       card.querySelector('.lodge__features').appendChild(showAllFeatures(house.offer.features));
       card.querySelector('.lodge__description').textContent = house.offer.description;
+      card.querySelector('.lodge__photos').appendChild(showAllPhotos(house.offer.photos));
 
       dialogPanel.parentElement.replaceChild(card, dialogPanel);
     },
