@@ -26,7 +26,7 @@ window.popup = function () {
       wrapper.style.display = 'inline-block';
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
-      wrapper.style.marginRight = (i === 3 ? '0' : '5px');
+      wrapper.style.marginRight = ((i + 1) % 4 === 0 ? '0' : '5px');
 
       var photo = document.createElement('img');
       photo.src = photos[i];
