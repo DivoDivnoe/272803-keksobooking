@@ -1,8 +1,7 @@
 'use strict';
 
 window.showCard = function () {
-  var avatarImage = window.createCard.dialog.querySelector('.dialog__title img');
-  var dialogClose = window.createCard.dialog.querySelector('.dialog__close');
+  var dialogClose = window.popup.dialog.querySelector('.dialog__close');
 
   return {
     pinMap: document.querySelector('.tokyo__pin-map'),
@@ -36,13 +35,13 @@ window.showCard = function () {
       });
 
       var closePopup = function (pin) {
-        window.common.hideElement(window.createCard.dialog);
+        window.common.hideElement(window.popup.dialog);
         pin.classList.remove('pin--active');
       };
 
       var openPopup = function (pin, index) {
-        avatarImage.src = houses[index].author.avatar;
-        window.createCard.createTemplate(houses[index]);
+        window.popup.showAvatar(houses[index]);
+        window.popup.renderCard(houses[index]);
 
         var activePinElement = window.showCard.pinMap.querySelector('.pin--active');
 
@@ -51,7 +50,7 @@ window.showCard = function () {
         }
 
         pin.classList.add('pin--active');
-        window.common.showElement(window.createCard.dialog);
+        window.common.showElement(window.popup.dialog);
 
         document.addEventListener('keydown', function (evt) {
           if (window.common.isEscapeKey(evt)) {
@@ -72,10 +71,12 @@ window.showCard = function () {
 
       pinElements.forEach(function (pinElement, index) {
         pinElement.addEventListener('click', function () {
+          window.currentHouse = new window.House(houses[index]);
           openPopup(pinElement, index);
         });
         pinElement.addEventListener('keydown', function (evt) {
           if (window.common.isActivationKey(evt)) {
+            window.currentHouse = new window.House(houses[index]);
             openPopup(pinElement, index);
           }
         });

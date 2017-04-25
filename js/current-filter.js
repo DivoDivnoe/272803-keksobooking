@@ -1,6 +1,6 @@
 'use strict';
 
-window.filters = function () {
+window.currentFilter = function () {
   var filters = document.querySelector('.tokyo__filters');
   var houseType = filters.querySelector('#housing_type');
   var housePrice = filters.querySelector('#housing_price');
@@ -8,35 +8,39 @@ window.filters = function () {
   var houseGuests = filters.querySelector('#housing_guests-number');
   var houseFeatures = filters.querySelectorAll('.feature input');
 
-  houseType.addEventListener('change', function () {
-    window.filters.houseTypeChangeHandler(houseType.value);
-  });
-
-  housePrice.addEventListener('change', function () {
-    window.filters.housePriceChangeHandler(housePrice.value);
-  });
-  houseRooms.addEventListener('change', function () {
-    window.filters.roomsNumberChangeHandler(houseRooms.value);
-  });
-  houseGuests.addEventListener('change', function () {
-    window.filters.guestsNumberChangeHandler(houseGuests.value);
-  });
-  houseFeatures.forEach(function (feature) {
-    feature.addEventListener('click', function () {
-      window.filters.featureCheckHandler(houseFeatures);
-    });
-  });
-
-  return {
+  var currentFilter = new window.Filter({
     houseType: houseType.value,
     housePrice: housePrice.value,
     houseRooms: houseRooms.value,
     houseGuests: houseGuests.value,
-    houseFeatures: houseFeatures,
-    houseTypeChangeHandler: function () {},
-    housePriceChangeHandler: function () {},
-    roomsNumberChangeHandler: function () {},
-    guestsNumberChangeHandler: function () {},
-    featureCheckHandler: function () {}
-  };
+    houseFeatures: function () {
+      var features = {};
+
+      houseFeatures.forEach(function (feature) {
+        features[feature.value] = feature.checked;
+      });
+      return features;
+    }()
+  });
+
+  houseType.addEventListener('change', function () {
+    currentFilter.houseTypeChange(houseType.value);
+  });
+
+  housePrice.addEventListener('change', function () {
+    currentFilter.housePriceChange(housePrice.value);
+  });
+  houseRooms.addEventListener('change', function () {
+    currentFilter.houseRoomsNumberChange(houseRooms.value);
+  });
+  houseGuests.addEventListener('change', function () {
+    currentFilter.houseGuestsNumberChange(houseGuests.value);
+  });
+  houseFeatures.forEach(function (feature) {
+    feature.addEventListener('click', function () {
+      currentFilter.houseFeaturesChange(feature.value, feature.checked);
+    });
+  });
+
+  return currentFilter;
 }();

@@ -3,30 +3,15 @@
 (function () {
   var houses;
   var filtered;
-  var houseType = window.filters.houseType;
-  var housePrice = window.filters.housePrice;
-  var houseRooms = window.filters.houseRooms;
-  var houseGuests = window.filters.houseGuests;
-  var houseFeatures = window.filters.houseFeatures;
-
-  var drawPins = function () {
-
-
-    while (!window.showCard.pinMap.lastElementChild.classList.contains('pin__main')) {
-      window.showCard.pinMap.removeChild(window.showCard.pinMap.lastElementChild);
-    }
-    window.showCard.pinMap.appendChild(window.showCard.createDocumentBlock(filtered));
-    window.showCard.popupHandler(filtered);
-  };
 
   var filterHouses = function () {
     filtered = houses.slice();
 
-    filterHouseType(houseType);
-    filterHousePrice(housePrice);
-    filterHouseRooms(houseRooms);
-    filterHouseGuests(houseGuests);
-    filterHouseFeatures(houseFeatures);
+    filterHouseType(window.currentFilter.houseType);
+    filterHousePrice(window.currentFilter.housePrice);
+    filterHouseRooms(window.currentFilter.houseRooms);
+    filterHouseGuests(window.currentFilter.houseGuests);
+    filterHouseFeatures(window.currentFilter.houseFeatures);
   };
 
   var filterHouseType = function (type) {
@@ -73,43 +58,20 @@
   };
 
   var filterHouseFeatures = function (features) {
-    features.forEach(function (feature) {
-      if (feature.checked) {
+    for (var key in features) {
+      if (features[key] === true) {
         filtered = filtered.filter(function (house) {
-          return house.offer.features.indexOf(feature.value) > -1;
+          return house.offer.features.indexOf(key) > -1;
         });
       }
+    }
+  };
+
+  window.currentFilter.filterChangeHandler = function () {
+    filterHouses();
+    window.debounce(function () {
+      window.renderPins(filtered);
     });
-  };
-
-  window.filters.houseTypeChangeHandler = function (type) {
-    houseType = type;
-    filterHouses();
-    window.debounce(drawPins);
-  };
-
-  window.filters.housePriceChangeHandler = function (price) {
-    housePrice = price;
-    filterHouses();
-    window.debounce(drawPins);
-  };
-
-  window.filters.roomsNumberChangeHandler = function (rooms) {
-    houseRooms = rooms;
-    filterHouses();
-    window.debounce(drawPins);
-  };
-
-  window.filters.guestsNumberChangeHandler = function (guests) {
-    houseGuests = guests;
-    filterHouses();
-    window.debounce(drawPins);
-  };
-
-  window.filters.featureCheckHandler = function (features) {
-    houseFeatures = features;
-    filterHouses();
-    window.debounce(drawPins);
   };
 
   var successHandler = function (items) {
@@ -120,7 +82,7 @@
     for (var i = 0; i < 3; i++) {
       filtered.push(window.common.spliceRandomElement(housesCopy));
     }
-    drawPins();
+    window.renderPins(filtered);
   };
 
   var errorHandler = function (message) {

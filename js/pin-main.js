@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var MIN_X = 0;
+  var MAX_X = 1200;
+  var MIN_Y = 200;
+  var MAX_Y = 700;
+
   var pinMain = window.showCard.pinMap.querySelector('.pin__main');
   var address = window.bookingForm.noticeForm.querySelector('#address');
 
@@ -23,8 +28,21 @@
         y: moveEvt.clientY
       };
 
-      pinMain.style.left = pinMain.offsetLeft + shift.x + 'px';
-      pinMain.style.top = pinMain.offsetTop + shift.y + 'px';
+      if (pinMain.offsetTop + pinMain.offsetHeight <= MIN_Y) {
+        pinMain.style.top = MIN_Y + 1 - pinMain.offsetHeight + 'px';
+      } else if (pinMain.offsetTop + pinMain.offsetHeight <= MAX_Y) {
+        pinMain.style.top = pinMain.offsetTop + shift.y + 'px';
+      } else {
+        pinMain.style.top = MAX_Y - pinMain.offsetHeight + 'px';
+      }
+
+      if (pinMain.offsetLeft + pinMain.offsetWidth / 2 <= MIN_X) {
+        pinMain.style.left = 1 - pinMain.offsetWidth / 2 + 'px';
+      } else if (pinMain.offsetLeft + pinMain.offsetWidth / 2 <= MAX_X) {
+        pinMain.style.left = pinMain.offsetLeft + shift.x + 'px';
+      } else {
+        pinMain.style.left = MAX_X - 1 - pinMain.offsetWidth / 2 + 'px';
+      }
 
       address.value = 'x: ' + (pinMain.offsetLeft + pinMain.offsetWidth / 2).toFixed(0) + ', y: ' + (pinMain.offsetTop + pinMain.offsetHeight).toFixed(0);
     };
@@ -48,5 +66,5 @@
     pinMain.style.top = parseInt(arr[1].substr(3), 10) - pinMain.offsetHeight + 'px';
   });
 
-  window.common.hideElement(window.createCard.dialog);
+  window.common.hideElement(window.popup.dialog);
 })();
