@@ -1,6 +1,13 @@
 'use strict';
 
 window.bookingForm = (function () {
+  var TIME_IN_ARRAY = ['12', '13', '14'];
+  var TIME_OUT_ARRAY = ['12', '13', '14'];
+  var HOUSE_TYPE_ARRAY = ['Квартира', 'Лачуга', 'Дворец'];
+  var PRICE_PER_NIGHT_ARRAY = ['Квартира', 'Лачуга', 'Дворец'];
+  var ROOMS_NUMBER_ARRAY = ['1 комната', '2 комнаты', '100 комнат'];
+  var CAPACITY_ARRAY = ['не для гостей', 'для 3 гостей', 'для 3 гостей'];
+
   var noticeForm = document.querySelector('.notice__form');
   var timein = noticeForm.querySelector('#time');
   var timeout = noticeForm.querySelector('#timeout');
@@ -68,15 +75,15 @@ window.bookingForm = (function () {
   };
 
   type.addEventListener('change', function () {
-    window.synchronizeFields(type, price, ['Квартира', 'Лачуга', 'Дворец'], [1000, 0, 10000], syncValuesWithMin);
+    window.synchronizeFields(type, price, HOUSE_TYPE_ARRAY, PRICE_PER_NIGHT_ARRAY, syncValuesWithMin);
   });
 
   timein.addEventListener('change', function () {
-    window.synchronizeFields(timein, timeout, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+    window.synchronizeFields(timein, timeout, TIME_IN_ARRAY, TIME_OUT_ARRAY, syncValues);
   });
 
   rooms.addEventListener('change', function () {
-    window.synchronizeFields(rooms, capacity, ['1 комната', '2 комнаты', '100 комнат'], ['не для гостей', 'для 3 гостей', 'для 3 гостей'], syncValues);
+    window.synchronizeFields(rooms, capacity, ROOMS_NUMBER_ARRAY, CAPACITY_ARRAY, syncValues);
   });
 
   noticeForm.addEventListener('invalid', function (evt) {

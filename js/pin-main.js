@@ -17,7 +17,17 @@
       y: evt.clientY
     };
 
+    var getMinCoord = function (minCoord, dimension) {
+      return minCoord + 1 - dimension + 'px';
+    };
+
+    var getMaxCoord = function (maxCoord, dimension) {
+      return maxCoord - 1 - dimension + 'px';
+    };
+
     var mouseMoveHandler = function (moveEvt) {
+      var cursorOffsetY = pinMain.offsetTop + pinMain.offsetHeight;
+      var cursorOffsetX = pinMain.offsetLeft + pinMain.offsetWidth / 2;
       var shift = {
         x: moveEvt.clientX - startCoords.x,
         y: moveEvt.clientY - startCoords.y
@@ -28,23 +38,23 @@
         y: moveEvt.clientY
       };
 
-      if (pinMain.offsetTop + pinMain.offsetHeight <= MIN_Y) {
-        pinMain.style.top = MIN_Y + 1 - pinMain.offsetHeight + 'px';
-      } else if (pinMain.offsetTop + pinMain.offsetHeight <= MAX_Y) {
+      if (cursorOffsetY <= MIN_Y) {
+        pinMain.style.top = getMinCoord(MIN_Y, pinMain.offsetHeight);
+      } else if (cursorOffsetY <= MAX_Y) {
         pinMain.style.top = pinMain.offsetTop + shift.y + 'px';
       } else {
-        pinMain.style.top = MAX_Y - pinMain.offsetHeight + 'px';
+        pinMain.style.top = getMaxCoord(MAX_Y, pinMain.offsetHeight);
       }
 
-      if (pinMain.offsetLeft + pinMain.offsetWidth / 2 <= MIN_X) {
-        pinMain.style.left = 1 - pinMain.offsetWidth / 2 + 'px';
-      } else if (pinMain.offsetLeft + pinMain.offsetWidth / 2 <= MAX_X) {
+      if (cursorOffsetX <= MIN_X) {
+        pinMain.style.left = getMinCoord(MIN_X, pinMain.offsetWidth / 2);
+      } else if (cursorOffsetX <= MAX_X) {
         pinMain.style.left = pinMain.offsetLeft + shift.x + 'px';
       } else {
-        pinMain.style.left = MAX_X - 1 - pinMain.offsetWidth / 2 + 'px';
+        pinMain.style.left = getMaxCoord(MAX_X, pinMain.offsetWidth / 2);
       }
 
-      address.value = 'x: ' + (pinMain.offsetLeft + pinMain.offsetWidth / 2).toFixed(0) + ', y: ' + (pinMain.offsetTop + pinMain.offsetHeight).toFixed(0);
+      address.value = 'x: ' + cursorOffsetX.toFixed(0) + ', y: ' + cursorOffsetY.toFixed(0);
     };
 
     var mouseUpHandler = function (upEvt) {

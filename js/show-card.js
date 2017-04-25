@@ -10,11 +10,15 @@ window.showCard = function () {
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < houses.length; i++) {
-        var card = document.createElement('div');
+        var pin = document.createElement('div');
+        var pinLocation = {
+          x: houses[i].location.x - pin.style.width / 2,
+          y: houses[i].location.y - pin.style.height
+        };
 
-        card.className = 'pin';
-        card.style = 'left: ' + (houses[i].location.x - card.style.width / 2) + 'px; top: ' + (houses[i].location.y - card.style.height) + 'px';
-        card.tabIndex = '0';
+        pin.className = 'pin';
+        pin.style = 'left: ' + pinLocation.x + 'px; top: ' + pinLocation.y + 'px';
+        pin.tabIndex = '0';
 
         var avatar = document.createElement('img');
 
@@ -23,8 +27,8 @@ window.showCard = function () {
         avatar.width = '40';
         avatar.height = '40';
 
-        card.appendChild(avatar);
-        fragment.appendChild(card);
+        pin.appendChild(avatar);
+        fragment.appendChild(pin);
       }
       return fragment;
     },
