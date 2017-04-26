@@ -1,8 +1,7 @@
 'use strict';
 
 window.showCard = function () {
-  var avatarImage = window.createCard.dialog.querySelector('.dialog__title img');
-  var dialogClose = window.createCard.dialog.querySelector('.dialog__close');
+  var dialogClose = window.popup.dialog.querySelector('.dialog__close');
 
   return {
     pinMap: document.querySelector('.tokyo__pin-map'),
@@ -11,11 +10,15 @@ window.showCard = function () {
       var fragment = document.createDocumentFragment();
 
       for (var i = 0; i < houses.length; i++) {
-        var card = document.createElement('div');
+        var pin = document.createElement('div');
+        var pinLocation = {
+          x: houses[i].location.x - pin.style.width / 2,
+          y: houses[i].location.y - pin.style.height
+        };
 
-        card.className = 'pin';
-        card.style = 'left: ' + (houses[i].location.x - card.style.width / 2) + 'px; top: ' + (houses[i].location.y - card.style.height) + 'px';
-        card.tabIndex = '0';
+        pin.className = 'pin';
+        pin.style = 'left: ' + pinLocation.x + 'px; top: ' + pinLocation.y + 'px';
+        pin.tabIndex = '0';
 
         var avatar = document.createElement('img');
 
@@ -24,8 +27,8 @@ window.showCard = function () {
         avatar.width = '40';
         avatar.height = '40';
 
-        card.appendChild(avatar);
-        fragment.appendChild(card);
+        pin.appendChild(avatar);
+        fragment.appendChild(pin);
       }
       return fragment;
     },
@@ -36,13 +39,13 @@ window.showCard = function () {
       });
 
       var closePopup = function (pin) {
-        window.common.hideElement(window.createCard.dialog);
+        window.common.hideElement(window.popup.dialog);
         pin.classList.remove('pin--active');
       };
 
       var openPopup = function (pin, index) {
-        avatarImage.src = houses[index].author.avatar;
-        window.createCard.createTemplate(houses[index]);
+        window.popup.showAvatar(houses[index]);
+        window.popup.renderCard(houses[index]);
 
         var activePinElement = window.showCard.pinMap.querySelector('.pin--active');
 
@@ -51,7 +54,7 @@ window.showCard = function () {
         }
 
         pin.classList.add('pin--active');
-        window.common.showElement(window.createCard.dialog);
+        window.common.showElement(window.popup.dialog);
 
         document.addEventListener('keydown', function (evt) {
           if (window.common.isEscapeKey(evt)) {
@@ -72,10 +75,12 @@ window.showCard = function () {
 
       pinElements.forEach(function (pinElement, index) {
         pinElement.addEventListener('click', function () {
+          window.currentHouse = new window.House(houses[index]);
           openPopup(pinElement, index);
         });
         pinElement.addEventListener('keydown', function (evt) {
           if (window.common.isActivationKey(evt)) {
+            window.currentHouse = new window.House(houses[index]);
             openPopup(pinElement, index);
           }
         });

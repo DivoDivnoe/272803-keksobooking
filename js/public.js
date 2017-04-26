@@ -13,14 +13,6 @@ window.common = function () {
       return splicedArray.splice(Math.floor(Math.random() * splicedArray.length), 1)[0];
     },
 
-    generateNumber: function (smallest, largest) {
-      return Math.round(Math.random() * (largest - smallest) + smallest);
-    },
-
-    getRandomValue: function (array) {
-      return array[Math.floor(Math.random() * array.length)];
-    },
-
     showElement: function (element) {
       element.style.display = 'block';
     },
