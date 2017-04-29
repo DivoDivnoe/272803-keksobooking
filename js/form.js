@@ -4,7 +4,7 @@ window.bookingForm = (function () {
   var TIME_IN_ARRAY = ['12', '13', '14'];
   var TIME_OUT_ARRAY = ['12', '13', '14'];
   var HOUSE_TYPE_ARRAY = ['Квартира', 'Лачуга', 'Дворец'];
-  var PRICE_PER_NIGHT_ARRAY = ['Квартира', 'Лачуга', 'Дворец'];
+  var PRICE_PER_NIGHT_ARRAY = ['1000', '0', '10000'];
   var ROOMS_NUMBER_ARRAY = ['1 комната', '2 комнаты', '100 комнат'];
   var CAPACITY_ARRAY = ['не для гостей', 'для 3 гостей', 'для 3 гостей'];
 
